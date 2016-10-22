@@ -1,7 +1,6 @@
 import numpy as np
 from scipy.integrate import odeint
-from scipy.optimize import curve_fit
-import sys    
+from scipy.optimize import curve_fit    
 
 def f(y, t, a, b):
     return a*y**2 + b
