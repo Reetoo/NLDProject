@@ -4,7 +4,8 @@ from scipy.integrate import odeint
 from scipy.optimize import curve_fit
 from numpy import genfromtxt
 
-months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+#N=1 #checking parameterization
+scale_factor = 140
 
 def f(y, t, a, b, g): # rhs for ODE solver
     S, I = y
@@ -20,14 +21,14 @@ def y(t, a, b, g, S0, I0): # solving the ODE
     I = y[:, 1]
     return I.ravel() # return solution for fitting
 
-file = open('./trendsData/lazycollegesenior.csv') # replace with filename, as required
+file = open('./trendsData/firstWorld.csv') # replace with filename, as required
 data = genfromtxt(file, delimiter=',', names=['month','rating'])
 
-I_data = data['rating']/130 # scaling down to suitable range, NEED TO FIGURE THIS OUT
+I_data = data['rating']/scale_factor # scaling down to suitable range, NEED TO FIGURE THIS OUT
 data_t = range(len(I_data)) # time range
 
 popt, cov = curve_fit(y, data_t, I_data, [.05, 0.02, 0.01, 0.99, 0.01]) # extract fit results
-a_opt, b_opt, g_opt, S0_opt, I0_opt = popt
+a_opt, b_opt, g_opt, S0_opt, I0_opt= popt
 
 print("a = %g" % a_opt)
 print("b = %g" % b_opt)
