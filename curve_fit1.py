@@ -5,7 +5,7 @@ from scipy.optimize import curve_fit
 from numpy import genfromtxt
 
 #N=1 #checking parameterization
-scale_factor = 140
+scale_factor = 170
 
 def f(y, t, a, b, g): # rhs for ODE solver
     S, I = y
@@ -21,7 +21,7 @@ def y(t, a, b, g, S0, I0): # solving the ODE
     I = y[:, 1]
     return I.ravel() # return solution for fitting
 
-file = open('./trendsData/firstWorld.csv') # replace with filename, as required
+file = open('./trendsData/chemcat.csv') # replace with filename, as required
 data = genfromtxt(file, delimiter=',', names=['month','rating'])
 
 I_data = data['rating']/scale_factor # scaling down to suitable range, NEED TO FIGURE THIS OUT
@@ -42,8 +42,8 @@ axes.set_ylim([0,1])
 
 plt.xlabel("Days")
 plt.ylabel("Search Volume Index")
-plt.plot(data_t, I_data, '.', label='Google Trends Data')
-plt.plot(t, y(t, a_opt, b_opt, g_opt, S0_opt, I0_opt), '-', label='Viral memetic model')
+plt.plot(data_t, I_data, 'g.', label='Google Trends Data')
+plt.plot(t, y(t, a_opt, b_opt, g_opt, S0_opt, I0_opt), 'g-', label='Viral memetic model')
 plt.legend(loc='upper right')
 plt.gcf().set_size_inches(6, 4)
 #plt.savefig('out.png', dpi=96) #to save the fit result
